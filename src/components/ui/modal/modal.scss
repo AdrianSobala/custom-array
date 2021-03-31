@@ -1,0 +1,50 @@
+@import "../../colors.scss";
+@import "../../responsiveBreakpoints.scss";
+
+.modalWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #fff, $alpha: 0.6);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    &.show {
+        display: flex;
+    }
+    .modalContent {
+        position: relative;
+        background-color: #fff;
+        box-shadow: 0px 0px 30px $lblue;
+        flex-basis: 100%;
+        max-width: 360px;
+        padding: 15px 15px 15px;
+        border-radius: 5px;
+        .closeModal {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            border: none;
+            background-color: #fff;
+            // box-shadow: 0px 0px 30px $lblue;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: $blue;
+            padding: 0;
+            z-index: 10;
+            &:active,
+            &:focus {
+                outline: 0;
+            }
+            .fas {
+                transform: rotate(45deg);
+            }
+        }
+    }
+}

@@ -12,6 +12,7 @@ import CustomArray, {
     handleGenerateArrayHeader,
     handleGenerateArrayBody,
     handleGenerateNewColumn,
+    handleGenerateNewRow,
 } from "../../ui/customArray/customArray";
 
 import Modal, { handleCloseModal, handleShowModal } from "../../ui/modal/modal";
@@ -135,13 +136,7 @@ const MainPage = () => {
     };
 
     const handleAddNewRow = (data) => {
-        let tableData = data;
-        let newItem = {};
-        for (const key of Object.keys(tableData[0])) {
-            newItem[key] = "empty";
-        }
-        tableData.unshift(newItem);
-        handleGenerateArrayBody(tableData);
+        // handleGenerateNewRow();
     };
 
     const handleAddNewColumn = (data, columName, columnsContent) => {

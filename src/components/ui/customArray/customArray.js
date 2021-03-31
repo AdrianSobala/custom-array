@@ -137,6 +137,16 @@ const handleGenerateNewColumn = (
     handleGenerateArrayBody(result, setArrayBody);
 };
 
+const handleGenerateNewRow = () => {
+    // let tableData = data;
+    // let newItem = {};
+    // for (const key of Object.keys(tableData[0])) {
+    //     newItem[key] = "empty";
+    // }
+    // tableData.unshift(newItem);
+    // handleGenerateArrayBody(tableData);
+};
+
 const handleGenerateArrayBody = (data, setArrayBody, maxLength) => {
     if (data && data.length > 0) {
         const domRowElements = data.map((item, index) => {
@@ -242,4 +252,5 @@ export {
     handleGenerateArrayHeader,
     handleGenerateArrayBody,
     handleGenerateNewColumn,
+    handleGenerateNewRow,
 };

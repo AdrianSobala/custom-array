@@ -1,0 +1,56 @@
+@import "../../responsiveBreakpoints";
+@import "../../variables";
+
+.customArray {
+    .customArrayRow {
+        display: flex;
+        flex-flow: row wrap;
+        border: 1px solid rgba($lnavy, 0.2);
+        border-radius: 3px;
+        margin-bottom: 5px;
+
+        &:hover {
+            background-color: rgba($lnavy, 0.2);
+        }
+        .customArrayColumn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+            flex: 1 1;
+            &:first-child {
+                flex-grow: 0.3;
+                text-align: center;
+            }
+            .columnSettings {
+                margin-left: 10px;
+                text-align: center;
+                .fas {
+                    cursor: pointer;
+                    font-size: $text-super-small;
+                    margin: 0 5px;
+                }
+            }
+            &.hiden {
+                opacity: 0;
+            }
+        }
+    }
+
+    .customArrayHeader {
+        .customArrayRow {
+            background-color: $navy;
+            color: #fff;
+            text-transform: capitalize;
+            .customArrayColumn {
+            }
+        }
+    }
+    .customArrayBody {
+        .customArrayRow {
+            .customArrayColumn {
+            }
+        }
+    }
+}

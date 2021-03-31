@@ -1,0 +1,26 @@
+@import "./variables";
+@import "./responsiveBreakpoints";
+
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    margin-top: 10vh;
+}
+
+.customButton {
+    border: 1px solid $blue;
+    display: inline-block;
+    background-color: $blue;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 700;
+    color: #fff;
+    transition: background-color 0.3s;
+    &:hover {
+        background-color: darken($blue, 10%);
+    }
+}

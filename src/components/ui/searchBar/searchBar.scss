@@ -1,0 +1,36 @@
+@import "../../variables";
+@import "../../responsiveBreakpoints.scss";
+
+.searchBar {
+    display: flex;
+    flex-flow: row wrap;
+    width: auto;
+    font-size: $text-super-small;
+    color: rgba($color: $navy, $alpha: 0.5);
+    align-items: center;
+    max-width: 100%;
+    p {
+        margin: 0 10px;
+    }
+    .searchContainer,
+    .filterBy {
+        margin: 10px 0;
+    }
+
+    .filterBy {
+        .kSelect {
+            .selectedElement {
+                font-family: "Montserrat", sans-serif;
+                font-weight: 400;
+                display: inline-block;
+                background: $white;
+                color: $blue;
+                text-decoration: none;
+                padding: 9px 18px;
+                border: 2px solid $lblue;
+                margin: 0;
+                transition: all 0.1s ease-in;
+            }
+        }
+    }
+}

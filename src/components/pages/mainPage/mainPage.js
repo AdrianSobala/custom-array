@@ -9,9 +9,12 @@ import SearchBar from "./../../ui//searchBar/searchBar";
 import CustomArray, {
     CustomArrayHeader,
     CustomArrayBody,
-    CustomArrayRow,
-    CustomArrayColumn,
+    handleGenerateArrayHeader,
+    handleGenerateArrayBody,
+    handleGenerateNewColumn,
 } from "../../ui/customArray/customArray";
+
+import Modal, { handleCloseModal, handleShowModal } from "../../ui/modal/modal";
 
 // -   Dynamiczne dodawanie wierszy
 // -   Dynamiczne dodawanie kolumn
@@ -109,100 +112,12 @@ const MainPage = () => {
     });
 
     const arrayRef = useRef();
-
-    const handleGenerateArrayHeader = (data, maxLength) => {
-        let headerData = Object.keys(data[0]);
-        if (headerData && headerData.length > 0) {
-            const domElements = headerData.map((item, index) => {
-                if (maxLength) {
-                    if (index < maxLength) {
-                        return (
-                            <CustomArrayColumn
-                                item={item}
-                                index={index}
-                                key={index}
-                                hideColumn={true}
-                                changePosition={true}
-                                showSettings={true}
-                                bodyRef={arrayRef}
-                            >
-                                {item}
-                            </CustomArrayColumn>
-                        );
-                    }
-                } else {
-                    return (
-                        <CustomArrayColumn
-                            item={item}
-                            index={index}
-                            key={index}
-                            hideColumn={true}
-                            changePosition={true}
-                            showSettings={true}
-                            bodyRef={arrayRef}
-                        >
-                            {item}
-                        </CustomArrayColumn>
-                    );
-                }
-            });
-
-            if (domElements) {
-                setArrayHeader(<CustomArrayRow>{domElements}</CustomArrayRow>);
-            }
-        }
-    };
-
-    const handleGenerateArrayBody = (data, maxLength) => {
-        if (data && data.length > 0) {
-            const domRowElements = data.map((item, index) => {
-                const domColumnsElements = Object.values(item).map(
-                    (item2, index2) => {
-                        const columnType = Object.keys(item);
-                        if (maxLength) {
-                            if (index2 < maxLength) {
-                                return (
-                                    <CustomArrayColumn
-                                        item={item2}
-                                        index={index2}
-                                        key={index2}
-                                        type={columnType[index2]}
-                                    >
-                                        {item2}
-                                    </CustomArrayColumn>
-                                );
-                            }
-                        } else {
-                            return (
-                                <CustomArrayColumn
-                                    item={item2}
-                                    index={index2}
-                                    key={index2}
-                                    type={columnType[index2]}
-                                >
-                                    {item2}
-                                </CustomArrayColumn>
-                            );
-                        }
-                    }
-                );
-
-                return (
-                    <CustomArrayRow key={index} item={item}>
-                        {domColumnsElements}
-                    </CustomArrayRow>
-                );
-            });
-
-            if (domRowElements) {
-                setArrayBody(domRowElements);
-            }
-        }
-    };
+    const addRowModalRef = useRef();
+    const addColumnModalRef = useRef();
 
     const handleGetApiData = (cancelToken) => {
-        handleGenerateArrayHeader(exampleData);
-        handleGenerateArrayBody(exampleData);
+        handleGenerateArrayHeader(exampleData, setArrayHeader, arrayRef);
+        handleGenerateArrayBody(exampleData, setArrayBody);
         // axios({
         //     method: "GET",
         //     url: getRoute("api") + "/people/",
@@ -229,16 +144,15 @@ const MainPage = () => {
         handleGenerateArrayBody(tableData);
     };
 
-    const handleAddNewColumn = (data) => {
-        let tableData = data;
-
-        var result = tableData.map(function (el) {
-            var o = Object.assign({}, el);
-            o.isActive = true;
-            return o;
-        });
-        handleGenerateArrayHeader(result);
-        handleGenerateArrayBody(result);
+    const handleAddNewColumn = (data, columName, columnsContent) => {
+        handleGenerateNewColumn(
+            data,
+            columName,
+            columnsContent,
+            setArrayHeader,
+            setArrayBody,
+            arrayRef
+        );
     };
 
     useEffect(() => {
@@ -259,7 +173,7 @@ const MainPage = () => {
                     </button>
                     <button
                         className="customButton"
-                        onClick={() => handleAddNewColumn(mockupData)}
+                        onClick={() => handleAddNewColumn(mockupData, "test")}
                     >
                         Dodaj nową kolumnę
                     </button>
@@ -276,6 +190,11 @@ const MainPage = () => {
                         {arrayBody}
                     </CustomArrayBody>
                 </CustomArray>
+
+                <Modal
+                    handleClosePopup={() => handleCloseModal(addColumnModalRef)}
+                    ref={addColumnModalRef}
+                ></Modal>
             </div>
         </>
     );

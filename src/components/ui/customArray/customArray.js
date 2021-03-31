@@ -114,6 +114,124 @@ const CustomArrayColumn = React.forwardRef((props, ref) => {
     );
 });
 
+const handleGenerateNewColumn = (
+    data,
+    columName,
+    columnsContent,
+    setArrayHeader,
+    setArrayBody,
+    arrayRef
+) => {
+    let tableData = data;
+    const result = tableData.map((item, index) => {
+        const o = item;
+
+        o[columName ?? "New"] =
+            columnsContent && columnsContent.length
+                ? columnsContent[index]
+                : "nic";
+
+        return o;
+    });
+    handleGenerateArrayHeader(result, setArrayHeader, arrayRef);
+    handleGenerateArrayBody(result, setArrayBody);
+};
+
+const handleGenerateArrayBody = (data, setArrayBody, maxLength) => {
+    if (data && data.length > 0) {
+        const domRowElements = data.map((item, index) => {
+            const domColumnsElements = Object.values(item).map(
+                (item2, index2) => {
+                    const columnType = Object.keys(item);
+                    if (maxLength) {
+                        if (index2 < maxLength) {
+                            return (
+                                <CustomArrayColumn
+                                    item={item2}
+                                    index={index2}
+                                    key={index2}
+                                    type={columnType[index2]}
+                                >
+                                    {item2}
+                                </CustomArrayColumn>
+                            );
+                        }
+                    } else {
+                        return (
+                            <CustomArrayColumn
+                                item={item2}
+                                index={index2}
+                                key={index2}
+                                type={columnType[index2]}
+                            >
+                                {item2}
+                            </CustomArrayColumn>
+                        );
+                    }
+                }
+            );
+
+            return (
+                <CustomArrayRow key={index} item={item}>
+                    {domColumnsElements}
+                </CustomArrayRow>
+            );
+        });
+
+        if (domRowElements) {
+            setArrayBody(domRowElements);
+        }
+    }
+};
+
+const handleGenerateArrayHeader = (
+    data,
+    setArrayHeader,
+    arrayRef,
+    maxLength
+) => {
+    let headerData = Object.keys(data[0]);
+    if (headerData && headerData.length > 0) {
+        const domElements = headerData.map((item, index) => {
+            if (maxLength) {
+                if (index < maxLength) {
+                    return (
+                        <CustomArrayColumn
+                            item={item}
+                            index={index}
+                            key={index}
+                            hideColumn={true}
+                            changePosition={true}
+                            showSettings={true}
+                            bodyRef={arrayRef}
+                        >
+                            {item}
+                        </CustomArrayColumn>
+                    );
+                }
+            } else {
+                return (
+                    <CustomArrayColumn
+                        item={item}
+                        index={index}
+                        key={index}
+                        hideColumn={true}
+                        changePosition={true}
+                        showSettings={true}
+                        bodyRef={arrayRef}
+                    >
+                        {item}
+                    </CustomArrayColumn>
+                );
+            }
+        });
+
+        if (domElements) {
+            setArrayHeader(<CustomArrayRow>{domElements}</CustomArrayRow>);
+        }
+    }
+};
+
 export default CustomArray;
 
 export {
@@ -121,4 +239,7 @@ export {
     CustomArrayColumn,
     CustomArrayHeader,
     CustomArrayBody,
+    handleGenerateArrayHeader,
+    handleGenerateArrayBody,
+    handleGenerateNewColumn,
 };
